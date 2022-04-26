@@ -2,7 +2,7 @@
 
 const e = React.createElement;
 
-class likeButton extends React.Component {
+class LikeButton extends React.Component {
     constructor(props){
         super(props)
         this.liked = { liked: false};
@@ -18,7 +18,8 @@ class likeButton extends React.Component {
     }
 }
 
-const divContainer = document.getElementById("root");
-const root = ReactDOM.createRoot(divContainer);
+const domContainer = document.querySelector("#like_btn_container")
+const root = ReactDOM.createRoot(domContainer);
 
-root.render(e(likeButton));
+root.render(e(LikeButton), domContainer);
+//ReactDom.render(<h1>You're in love</h1>, document.getElementById('root'));
