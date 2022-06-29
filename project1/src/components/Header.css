@@ -1,0 +1,28 @@
+nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #21222A;
+    color: #DEEBF8;
+    padding-block: 2rem;
+}
+.logo{
+    display:flex;
+    align-items: center;
+}
+.logo > span{
+    color: #61DAFB;
+    font-weight: 700;
+    font-size: 22.2535px;
+    line-height: 27px;
+    letter-spacing: -0.05em;
+    margin-left: 1rem;
+}
+
+.extra-tile{
+    list-style: none;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: right;
+}
