@@ -1,0 +1,9 @@
+.Footer{
+    display:flex;
+    gap: 1.5rem;
+    justify-content: center;
+    background:#161619;
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+}

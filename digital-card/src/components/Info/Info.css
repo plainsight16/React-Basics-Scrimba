@@ -1,0 +1,55 @@
+.Info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white; 
+}
+.name{
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 30px
+}
+.role{
+    font-weight: 400;
+    font-size: 12.8px;
+    line-height: 15px;
+    color: #F3BF99;
+}
+.website{
+    display: inline-block;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 150%;
+    color: #F5F5F5;
+    transition: all ease-in-out 0.3ms;
+}
+.website:hover{
+    border-bottom: solid #FFFFFF;
+    cursor: pointer;
+}
+
+.links{
+    gap: 1rem;
+}
+.links > button{
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 13px;
+    border-radius: 6px;
+    width: 115px;
+}
+.links button > span{
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+}
+.email{
+    background: #FFFFFF;
+}
+.linkedIn{
+    background: #5093E2;
+    color: #FFFFFF;
+}
