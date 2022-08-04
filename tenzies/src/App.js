@@ -5,20 +5,44 @@ import {nanoid} from "nanoid"
 function App() {
   const [dice, setDice] = React.useState(generateDice())
 
-  function generateDice () {
+  const [tenzies, setTenzies] = React.useState(false)
+
+  React.useEffect(()=>{
+    let sameValue = true
+    for (let i = 0; i < dice.length; i++){
+      const currentDie = dice[i]
+      const nextDie = dice[(i + 1) % dice.length]
+      if (currentDie.value !== nextDie.value)
+          sameValue = false
+    }
+
+    const allGreen = dice.every(die => die.isHeld)
+
+    if(sameValue && allGreen){
+      setTenzies(true)
+      console.log("you win")
+    }
+
+  }, [dice])
+
+  function newDieElement(){
+    return {
+      id: nanoid(),
+      isHeld: false,
+      value: Math.ceil((Math.random() * 6))
+    }
+  }
+
+  function generateDice(){
     const diceArray = []
     for (let i = 0; i < 10; i++){
-      diceArray.push({
-        id: nanoid(),
-        isHeld: false,
-        value: Math.ceil((Math.random() * 6))
-      })
+      diceArray.push(newDieElement())
     }
     return diceArray
   }
 
   function roll(){
-    setDice(generateDice())
+    setDice(oldDice => oldDice.map(die => die.isHeld ? die : newDieElement()))
   }
 
   function holdDice(id){
