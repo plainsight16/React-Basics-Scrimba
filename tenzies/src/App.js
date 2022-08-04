@@ -20,9 +20,7 @@ function App() {
 
     if(sameValue && allGreen){
       setTenzies(true)
-      console.log("you win")
     }
-
   }, [dice])
 
   function newDieElement(){
@@ -52,6 +50,10 @@ function App() {
     )
   }
 
+  function reset(){
+    setDice(generateDice())
+  }
+
   const diceElements = dice.map(die => 
     <Die
       key={die.id}
@@ -77,7 +79,9 @@ function App() {
           {diceElements}
       </div>
 
-      <button onClick={roll}>Roll</button>
+     {
+      tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
+     } 
       
 
     </main>
