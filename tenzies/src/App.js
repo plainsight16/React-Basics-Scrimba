@@ -1,4 +1,5 @@
 import React from 'react' 
+import useWindowSize from "react-use/lib/useWindowSize"
 import Die from './Die.js'
 import {nanoid} from "nanoid"
 import Confetti from "react-confetti"
@@ -7,6 +8,7 @@ function App() {
   const [dice, setDice] = React.useState(generateDice())
 
   const [tenzies, setTenzies] = React.useState(false)
+  const {width, height} = useWindowSize()
 
   React.useEffect(()=>{
     let sameValue = true
@@ -67,7 +69,7 @@ function App() {
 
   return (
     <main className="main">
-      {tenzies && <Confetti />}
+      {tenzies && <Confetti width={width} height={height} />}
       <header>
         <h1>Tenzies</h1>
         <p>
