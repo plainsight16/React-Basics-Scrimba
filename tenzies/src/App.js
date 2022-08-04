@@ -1,6 +1,7 @@
 import React from 'react' 
 import Die from './Die.js'
 import {nanoid} from "nanoid"
+import Confetti from "react-confetti"
 
 function App() {
   const [dice, setDice] = React.useState(generateDice())
@@ -51,6 +52,7 @@ function App() {
   }
 
   function reset(){
+    setTenzies(false)
     setDice(generateDice())
   }
 
@@ -63,10 +65,9 @@ function App() {
     />
   )
 
-  
-
   return (
     <main className="main">
+      {tenzies && <Confetti />}
       <header>
         <h1>Tenzies</h1>
         <p>
@@ -79,11 +80,9 @@ function App() {
           {diceElements}
       </div>
 
-     {
-      tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
-     } 
-      
-
+      {
+        tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
+      } 
     </main>
   );
 }
