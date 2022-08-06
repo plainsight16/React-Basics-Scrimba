@@ -8,6 +8,7 @@ function App() {
   const [dice, setDice] = React.useState(generateDice())
 
   const [tenzies, setTenzies] = React.useState(false)
+
   const {width, height} = useWindowSize()
 
   React.useEffect(()=>{
@@ -25,6 +26,7 @@ function App() {
       setTenzies(true)
     }
   }, [dice])
+
 
   function newDieElement(){
     return {
@@ -68,24 +70,32 @@ function App() {
   )
 
   return (
-    <main className="main">
-      {tenzies && <Confetti width={width} height={height} />}
-      <header>
-        <h1>Tenzies</h1>
-        <p>
-          Roll until all dice are the same.
-          Click each die to freeze it at its current value between rolls.
-        </p> 
-      </header>
-
-      <div className="dice--container">
-          {diceElements}
+    <div>
+      <div className="scoreboard">
+        <h1 className="score">Best-Time: 0000</h1>
+        <h1 className="score">Time: 0000</h1>
       </div>
+     
+      <main className="main">
+        {tenzies && <Confetti width={width} height={height} />}
+        <header>
+          <h1>Tenzies</h1>
+          <p>
+            Roll until all dice are the same.
+            Click each die to freeze it at its current value between rolls.
+          </p> 
+        </header>
 
-      {
-        tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
-      } 
+        <div className="dice--container">
+            {diceElements}
+        </div>
+
+        {
+          tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
+        } 
     </main>
+    </div>
+    
   );
 }
 
