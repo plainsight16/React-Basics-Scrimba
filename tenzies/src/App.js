@@ -9,6 +9,8 @@ function App() {
 
   const [tenzies, setTenzies] = React.useState(false)
 
+  const [timer , setTimer] =  React.useState(0)
+
   const {width, height} = useWindowSize()
 
   React.useEffect(()=>{
@@ -27,6 +29,15 @@ function App() {
     }
   }, [dice])
 
+  React.useEffect(() =>{
+      setInterval(()=>{
+        setTimer(oldTime => oldTime + 1)
+        console.log(timer)
+      }, 1000)
+      
+  }, [])
+
+  console.log(timer)
 
   function newDieElement(){
     return {
