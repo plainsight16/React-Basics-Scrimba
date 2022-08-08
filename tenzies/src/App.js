@@ -7,7 +7,7 @@ import Confetti from "react-confetti"
 function App() {
   const [dice, setDice] = React.useState(generateDice())
 
-  const [tenzies, setTenzies] = React.useState(false)
+  const [tenzies, setTenzies] = React.useState({isWon: false, start: true})
 
   const [timer , setTimer] =  React.useState(0)
 
@@ -25,19 +25,13 @@ function App() {
     const allGreen = dice.every(die => die.isHeld)
 
     if(sameValue && allGreen){
-      setTenzies(true)
+      setTenzies({start: true, isWon: true})
+      clearInterval(intervalRef.current)
     }
   }, [dice])
 
-  React.useEffect(() =>{
-      setInterval(()=>{
-        setTimer(oldTime => oldTime + 1)
-        console.log(timer)
-      }, 1000)
-      
-  }, [])
-
-  console.log(timer)
+  const intervalRef = React.useRef(); 
+  
 
   function newDieElement(){
     return {
@@ -67,8 +61,14 @@ function App() {
   }
 
   function reset(){
-    setTenzies(false)
+    setTenzies(oldTenzies => ({...oldTenzies, start: false}))
     setDice(generateDice())
+
+      const id = setInterval(()=>{
+        setTimer(oldTime => oldTime + 1)
+      }, 1000)
+      intervalRef.current= id;
+    
   }
 
   const diceElements = dice.map(die => 
@@ -80,15 +80,16 @@ function App() {
     />
   )
 
+
   return (
     <div>
       <div className="scoreboard">
         <h1 className="score">Best-Time: 0000</h1>
-        <h1 className="score">Time: 0000</h1>
+        <h1 className="score">Time: {timer}s</h1>
       </div>
      
       <main className="main">
-        {tenzies && <Confetti width={width} height={height} />}
+        {tenzies.isWon && <Confetti width={width} height={height} />}
         <header>
           <h1>Tenzies</h1>
           <p>
@@ -102,7 +103,7 @@ function App() {
         </div>
 
         {
-          tenzies ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
+          tenzies.start ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
         } 
     </main>
     </div>
