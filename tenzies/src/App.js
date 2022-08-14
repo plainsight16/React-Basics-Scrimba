@@ -1,8 +1,10 @@
 import React from 'react' 
 import useWindowSize from "react-use/lib/useWindowSize"
 import Die from './Die.js'
+import ConfettiElement from './Confetti.js'
+import Scoreboard from './Scoreboard.js'
 import {nanoid} from "nanoid"
-import Confetti from "react-confetti"
+
 
 function App() {
   const [dice, setDice] = React.useState(generateDice())
@@ -83,13 +85,17 @@ function App() {
 
   return (
     <div>
-      <div className="scoreboard">
-        <h1 className="score">Best-Time: 0000</h1>
-        <h1 className="score">Time: {timer}s</h1>
-      </div>
+      <Scoreboard timer={timer}/>
      
       <main className="main">
-        {tenzies.isWon && <Confetti width={width} height={height} />}
+
+        <ConfettiElement
+          fall={tenzies.isWon}
+          width={width}
+          height={height}
+        />
+
+
         <header>
           <h1>Tenzies</h1>
           <p>
