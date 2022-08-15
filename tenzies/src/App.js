@@ -20,6 +20,10 @@ function App() {
   const {width, height} = useWindowSize()
 
 
+  React.useEffect(() =>{
+    sethighScore(parseInt(localStorage.getItem("highScore")))
+  }, [])
+ 
   //track dice || determine win
   React.useEffect(()=>{
     let sameValue = true
@@ -36,7 +40,8 @@ function App() {
       setTenzies(true)
       clearInterval(intervalRef.current)
       sethighScore(oldHighScore => {
-        return timer < oldHighScore ? timer : oldHighScore
+        if (oldHighScore < timer && oldHighScore !== 0) return oldHighScore
+        else return timer
       })
     }
   }, [dice])
@@ -46,7 +51,6 @@ function App() {
       setTimer(oldTime => oldTime + 1)
     }, 1000)
     intervalRef.current= id;
-    
   }, [resetTimer])
 
   React.useEffect(() =>{
