@@ -9,12 +9,18 @@ import {nanoid} from "nanoid"
 function App() {
   const [dice, setDice] = React.useState(generateDice())
 
-  const [tenzies, setTenzies] = React.useState({isWon: false, start: true})
+  const [tenzies, setTenzies] = React.useState(false)
 
   const [timer , setTimer] =  React.useState(0)
 
+  const [highScore, sethighScore] = React.useState(0)
+
+  const [resetTimer, setresetTimer] = React.useState(false)
+
   const {width, height} = useWindowSize()
 
+
+  //track dice || determine win
   React.useEffect(()=>{
     let sameValue = true
     for (let i = 0; i < dice.length; i++){
@@ -27,10 +33,25 @@ function App() {
     const allGreen = dice.every(die => die.isHeld)
 
     if(sameValue && allGreen){
-      setTenzies({start: true, isWon: true})
+      setTenzies(true)
       clearInterval(intervalRef.current)
+      sethighScore(oldHighScore => {
+        return timer < oldHighScore ? timer : oldHighScore
+      })
     }
   }, [dice])
+
+  React.useEffect(() =>{
+    const id = setInterval(()=>{
+      setTimer(oldTime => oldTime + 1)
+    }, 1000)
+    intervalRef.current= id;
+    
+  }, [resetTimer])
+
+  React.useEffect(() =>{
+    localStorage.setItem('highScore', JSON.stringify(highScore))
+  }, [highScore])
 
   const intervalRef = React.useRef(); 
   
@@ -63,14 +84,10 @@ function App() {
   }
 
   function reset(){
-    setTenzies(oldTenzies => ({...oldTenzies, start: false}))
+    setTenzies(false)
     setDice(generateDice())
-
-      const id = setInterval(()=>{
-        setTimer(oldTime => oldTime + 1)
-      }, 1000)
-      intervalRef.current= id;
-    
+    setTimer(0)
+    setresetTimer(oldResetTimer => !oldResetTimer)
   }
 
   const diceElements = dice.map(die => 
@@ -85,12 +102,12 @@ function App() {
 
   return (
     <div>
-      <Scoreboard timer={timer}/>
+      <Scoreboard timer={timer} highScore = {highScore}/>
      
       <main className="main">
 
         <ConfettiElement
-          fall={tenzies.isWon}
+          fall={tenzies}
           width={width}
           height={height}
         />
@@ -109,9 +126,12 @@ function App() {
         </div>
 
         {
-          tenzies.start ? <button onClick={reset}>New Game</button> : <button onClick={roll}>Roll</button>
+          tenzies ?
+          <button onClick={reset}>New Game</button>
+          :
+          <button onClick={roll}>Roll</button>
         } 
-    </main>
+      </main>
     </div>
     
   );
