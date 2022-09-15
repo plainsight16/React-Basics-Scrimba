@@ -10,12 +10,10 @@ export default function Scoreboard ({timer, highScore}){
         else if (score / 10 <= 100) zeroCount = 1
         else zeroCount = 0 
         formattedScore = "0".repeat(zeroCount) + score.toString()
-        console.log(formattedScore)
         return formattedScore
     }
 
     return (
-        
         <div className="scoreboard">
             <h1 className="score">Best-Time: {formatScore(highScore)}s</h1>
             <h1 className="score">Time: {formatScore(timer)}s</h1>
