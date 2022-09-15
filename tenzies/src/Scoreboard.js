@@ -9,7 +9,8 @@ export default function Scoreboard ({timer, highScore}){
         else if (score / 10 <= 10) zeroCount = 2
         else if (score / 10 <= 100) zeroCount = 1
         else zeroCount = 0 
-        formattedScore = "0" * zeroCount + score
+        formattedScore = "0".repeat(zeroCount) + score.toString()
+        console.log(formattedScore)
         return formattedScore
     }
 
