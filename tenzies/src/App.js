@@ -4,6 +4,7 @@ import Die from './Die.js'
 import ConfettiElement from './Confetti.js'
 import Scoreboard from './Scoreboard.js'
 import {nanoid} from "nanoid"
+import { useEffect, useState } from "react"
 
 
 function App() {
@@ -17,23 +18,29 @@ function App() {
 
   const [resetTimer, setresetTimer] = React.useState(false)
 
-  const {width, height} = useWindowSize()
+  const intervalRef = React.useRef(); 
+
+  //const {width, height} = useWindowSize()
 
 
+  // Set highScore on page load
   React.useEffect(() =>{
     sethighScore(parseInt(localStorage.getItem("highScore")))
   }, [])
  
-  //track dice || determine win
+  // track dice to determine win
   React.useEffect(()=>{
-    let sameValue = true
+    let sameDieValue = true
+
+    //Determines if all dices have the same value(number)
     for (let i = 0; i < dice.length; i++){
       const currentDie = dice[i]
       const nextDie = dice[(i + 1) % dice.length]
       if (currentDie.value !== nextDie.value)
-          sameValue = false
+          sameDieValue = false
     }
-
+    
+    //Returns true if all die.isHeld is true
     const allGreen = dice.every(die => die.isHeld)
 
     if(sameValue && allGreen){
@@ -46,18 +53,23 @@ function App() {
     }
   }, [dice])
 
+
+  // Timer
   React.useEffect(() =>{
     const id = setInterval(()=>{
       setTimer(oldTime => oldTime + 1)
     }, 1000)
-    intervalRef.current= id;
+
+    intervalRef.current = id;
   }, [resetTimer])
 
+
+  // Modify highScore in localStorage
   React.useEffect(() =>{
     localStorage.setItem('highScore', JSON.stringify(highScore))
   }, [highScore])
 
-  const intervalRef = React.useRef(); 
+  
   
 
   function newDieElement(){
