@@ -20,7 +20,7 @@ function App() {
 
   const intervalRef = React.useRef(); 
 
-  //const {width, height} = useWindowSize()
+  const {width, height} = useWindowSize()
 
 
   // Set highScore on page load
@@ -43,7 +43,7 @@ function App() {
     //Returns true if all die.isHeld is true
     const allGreen = dice.every(die => die.isHeld)
 
-    if(sameValue && allGreen){
+    if(sameDieValue && allGreen){
       setTenzies(true)
       clearInterval(intervalRef.current)
       sethighScore(oldHighScore => {
@@ -55,14 +55,11 @@ function App() {
 
 
   // Timer
-  React.useEffect(() =>{
-    const id = setInterval(()=>{
+  function timerCount (){
+    intervalRef.current = setInterval(()=>{
       setTimer(oldTime => oldTime + 1)
     }, 1000)
-
-    intervalRef.current = id;
-  }, [resetTimer])
-
+  }
 
   // Modify highScore in localStorage
   React.useEffect(() =>{
@@ -89,6 +86,7 @@ function App() {
   }
 
   function roll(){
+    timerCount()
     setDice(oldDice => oldDice.map(die => die.isHeld ? die : newDieElement()))
   }
 
@@ -103,7 +101,7 @@ function App() {
     setTenzies(false)
     setDice(generateDice())
     setTimer(0)
-    setresetTimer(oldResetTimer => !oldResetTimer)
+    timerCount()
   }
 
   const diceElements = dice.map(die => 
@@ -143,6 +141,7 @@ function App() {
 
         {
           tenzies ?
+
           <button onClick={reset}>New Game</button>
           :
           <button onClick={roll}>Roll</button>
